@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+// import useFetch from "./components/hooks/useFetch";
+// import Alert from "./components/layout/Alert";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import SingleUser from "./components/users/SingleUser";
+import About from "./pages/About";
+import GithubState from "./context/github/GithubState";
+import AlertState from "./context/alert/AlertState";
+import Navbar from "./components/layout/Navbar";
+import Home from "./pages/Home";
 
-function App() {
+const App = () => {
+  // const { users, loading } = useFetch(`https://api.github.com/users`);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <GithubState>
+        <AlertState>
+          <Router>
+            <Navbar />
+            <div className="container">
+              {/* <Alert /> */}
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route path="/about" component={About} />
+                <Route path="/user/:login" component={SingleUser} />
+              </Switch>
+            </div>
+          </Router>
+        </AlertState>
+      </GithubState>
     </div>
   );
-}
+};
 
 export default App;
